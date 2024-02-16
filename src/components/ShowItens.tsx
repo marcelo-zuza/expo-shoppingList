@@ -7,7 +7,6 @@ export default function ShowItens({items}: any) {
       <FlatList data={items} keyExtractor={(item) => item.id.toString()} renderItem={({item}) => (
         <View style={styles.container}>
           <Text style={styles.items}>{item.id} - {item.name}: {item.qte}</Text>
-          <Text style={styles.items}></Text>
         </View>
       )} />
 
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 10,
     width: '100%',
     borderRadius: 6,
     marginVertical: 15,

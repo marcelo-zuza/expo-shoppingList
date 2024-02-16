@@ -36,7 +36,24 @@ const App = () => {
       getData()
   }, [])
 
-
+  const addData = async () => {
+    const postsRef = collection(db, "items");
+    try {
+        await setDoc(doc(postsRef, (items.length+1).toString()), {
+            id: items.length + 1,
+            qte: qte,
+            name: name,
+        });
+        setId(0)
+        setQte(0)
+        setName('')
+      
+        console.log("Document written with ID: ", (items.length+1).toString());
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    getData()
+}
 
 
   return (
@@ -45,7 +62,7 @@ const App = () => {
       <Text style={styles.subTitle}>Powered by</Text>
       <Text style={styles.subTitle}>Marcelo Zuza</Text>
     <View style={styles.subContainer}>
-      <AddItem />
+      <AddItem addData={addData} id={id} setId={setId} qte={qte} setQte={setQte} name={name} setName={setName} />
       <ShowItens items={items} />
     </View>
 
@@ -65,7 +82,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   subContainer: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#bef264',
     color: 'black',
     alignItems: 'center',
     justifyContent: 'center',
