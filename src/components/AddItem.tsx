@@ -17,7 +17,7 @@ const AddItem = ({addData, id, stringNumber, setStringNumber, name, setId, setNa
     <View>
       <Text style={styles.form}>Add Item</Text>
       <View>
-        <TextInput placeholder='Name of the item' style={styles.items} value={name} onChangeText={setName} />
+        <TextInput placeholder='Item Name' style={styles.items} value={name} onChangeText={setName} />
         <TextInput placeholder='Quantity' style={styles.items} keyboardType='numeric' value={stringNumber} onChangeText={setStringNumber}/>
       </View>
       <Pressable style={styles.button} onPress={addData}><Text style={styles.buttonText}>Add</Text></Pressable>
