@@ -23,36 +23,48 @@ const AddItem = ({addData, id, qte, name, setId, setName, setQte}: Props) => {
 
   return (
     <View>
-      <Text style={styles.form}>AddItem</Text>
+      <Text style={styles.form}>Add Item</Text>
       <View>
-        <TextInput placeholder='Name' style={styles.items} value={name} onChangeText={setName} />
-        <TextInput placeholder='Qte' style={styles.items} keyboardType='numeric' value={stringNumber} onChangeText={setStringNumber}/>
-        <Pressable style={styles.button} onPress={() => {setStringToNumber(stringNumber); addData();}} />
+        <TextInput placeholder='name of the item' style={styles.items} value={name} onChangeText={setName} />
+        <TextInput placeholder='quantity' style={styles.items} keyboardType='numeric' value={stringNumber} onChangeText={setStringNumber}/>
       </View>
+      <Pressable style={styles.button} onPress={() => {setStringToNumber(stringNumber); addData();}}><Text style={styles.buttonText}>Add</Text></Pressable>
+
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   form: {
-    fontSize: 18,
+    fontSize: 28,
+    textAlign: 'center',
   },
   inputs: {
     fontSize: 20,
     backgroundColor: 'white',
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
     paddingVertical: 2,
     borderBlockColor: 'black',
     borderRadius: 6
   },
   items: {
     fontSize: 18,
-    color: '#black',
+    color: '#6b7280',
+    backgroundColor: '#f8fafc',
+    paddingHorizontal: 2,
+    paddingVertical: 4,
+    borderRadius: 8,
+    marginVertical: 4
   },
   button: {
     backgroundColor: '#0284c7',
     padding: 8,
-
+    borderRadius: 6
+  },
+  buttonText: {
+    color: '#fafafa',
+    textAlign: 'center',
+    fontSize: 18
   }
 })
 

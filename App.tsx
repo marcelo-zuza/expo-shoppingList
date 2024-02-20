@@ -6,7 +6,7 @@ import ShowItens from './src/components/ShowItens'
 import db from './src/firebase/db'
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, doc, getDocs, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, doc, getDocs, setDoc, updateDoc, deleteDoc } from "firebase/firestore"; 
 import firebase from 'firebase/compat/app';
 
 interface Items {
@@ -55,6 +55,12 @@ const App = () => {
     getData()
 }
 
+  const deleteData = async (id: number) => {
+    const docRef = doc(db, "items", id.toString());
+    await deleteDoc(docRef);
+    getData()
+  }
+
 
   return (
     <View style={styles.containter}>
@@ -63,7 +69,7 @@ const App = () => {
       <Text style={styles.subTitle}>Marcelo Zuza</Text>
     <View style={styles.subContainer}>
       <AddItem addData={addData} id={id} setId={setId} qte={qte} setQte={setQte} name={name} setName={setName} />
-      <ShowItens items={items} />
+      <ShowItens items={items} deleteData={deleteData} />
     </View>
 
     </View>
