@@ -5,30 +5,22 @@ interface Props {
   addData: () => void,
   setId: React.Dispatch<React.SetStateAction<number>>,
   setName: React.Dispatch<React.SetStateAction<string>>,
-  setQte: React.Dispatch<React.SetStateAction<number>>,
+  setStringNumber: React.Dispatch<React.SetStateAction<string>>,
   id: number,
-  qte: number,
+  stringNumber: string,
   name: string
 }
 
-const AddItem = ({addData, id, qte, name, setId, setName, setQte}: Props) => {
+const AddItem = ({addData, id, stringNumber, setStringNumber, name, setId, setName}: Props) => {
   
-  const [stringNumber, setStringNumber] = useState<string>('')
-
-  const setStringToNumber = (stringNum: string): void => {
-    let result: number = parseInt(stringNum)
-    setQte(result)
-    setStringNumber('')
-  }
-
   return (
     <View>
       <Text style={styles.form}>Add Item</Text>
       <View>
-        <TextInput placeholder='name of the item' style={styles.items} value={name} onChangeText={setName} />
-        <TextInput placeholder='quantity' style={styles.items} keyboardType='numeric' value={stringNumber} onChangeText={setStringNumber}/>
+        <TextInput placeholder='Name of the item' style={styles.items} value={name} onChangeText={setName} />
+        <TextInput placeholder='Quantity' style={styles.items} keyboardType='numeric' value={stringNumber} onChangeText={setStringNumber}/>
       </View>
-      <Pressable style={styles.button} onPress={() => {setStringToNumber(stringNumber); addData();}}><Text style={styles.buttonText}>Add</Text></Pressable>
+      <Pressable style={styles.button} onPress={addData}><Text style={styles.buttonText}>Add</Text></Pressable>
 
     </View>
   )

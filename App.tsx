@@ -20,15 +20,20 @@ const App = () => {
   const [items, setItems] = useState<Items[]>([])
   const [id, setId] = useState<number>(0)
   const [qte, setQte] = useState<number>(0)
+  const [stringNumber, setStringNumber] = useState<any>('')
+  const [loading, setLoading] = useState<boolean>(false)
+
   const [name, setName] = useState<string>('')
 
   const getData = async () => {
+    setLoading(true)
     const querySnapshot = await getDocs(collection(db, "items"));
     const newItems: Items[] = [];
     querySnapshot.forEach((doc) => {
       let data: any = doc.data();
       newItems.push(data);
     });
+    setLoading(false)
     setItems(newItems);
   }
 
@@ -37,15 +42,19 @@ const App = () => {
   }, [])
 
   const addData = async () => {
+    if (isNaN(stringNumber) || stringNumber === '') {
+      alert("Invalid number:" + stringNumber);
+      return;
+    }
     const postsRef = collection(db, "items");
     try {
         await setDoc(doc(postsRef, (items.length+1).toString()), {
             id: items.length + 1,
-            qte: qte,
+            qte: stringNumber,
             name: name,
         });
         setId(0)
-        setQte(0)
+        setStringNumber('')
         setName('')
       
         console.log("Document written with ID: ", (items.length+1).toString());
@@ -68,8 +77,8 @@ const App = () => {
       <Text style={styles.subTitle}>Powered by</Text>
       <Text style={styles.subTitle}>Marcelo Zuza</Text>
     <View style={styles.subContainer}>
-      <AddItem addData={addData} id={id} setId={setId} qte={qte} setQte={setQte} name={name} setName={setName} />
-      <ShowItens items={items} deleteData={deleteData} />
+      <AddItem addData={addData} id={id} setId={setId} stringNumber={stringNumber} setStringNumber={setStringNumber} name={name} setName={setName} />
+      <ShowItens items={items} deleteData={deleteData} loading={loading} setLoading={setLoading} />
     </View>
 
     </View>
