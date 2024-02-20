@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Animated, Modal } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import AddItem from './src/components/AddItem'
 import ShowItens from './src/components/ShowItens'
+import CoverModal from './src/components/CoverModal'
 //firebase
 import db from './src/firebase/db'
 import { initializeApp } from "firebase/app";
@@ -19,11 +20,18 @@ const App = () => {
 
   const [items, setItems] = useState<Items[]>([])
   const [id, setId] = useState<number>(0)
-  const [qte, setQte] = useState<number>(0)
   const [stringNumber, setStringNumber] = useState<any>('')
   const [loading, setLoading] = useState<boolean>(false)
-
   const [name, setName] = useState<string>('')
+  const [modalVisible, setModalVisible] = useState<boolean>(true)
+  // Animations
+  const [animatedBlock, setAnimatedBlock] = useState(new Animated.Value(0))
+
+  Animated.timing(animatedBlock, {
+    toValue: 200,
+    duration: 1000,
+    useNativeDriver: true
+  }).start()
 
   const getData = async () => {
     setLoading(true)
@@ -36,6 +44,13 @@ const App = () => {
     setLoading(false)
     setItems(newItems);
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setModalVisible(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
       getData()
@@ -73,12 +88,17 @@ const App = () => {
 
   return (
     <View style={styles.containter}>
+      <Modal style={styles.modalBlock} animationType='fade' visible={modalVisible} >
+        <CoverModal />
+      </Modal>
       <Text style={styles.title}>Shopping list</Text>
       <Text style={styles.subTitle}>Powered by</Text>
       <Text style={styles.subTitle}>Marcelo Zuza</Text>
     <View style={styles.subContainer}>
       <AddItem addData={addData} id={id} setId={setId} stringNumber={stringNumber} setStringNumber={setStringNumber} name={name} setName={setName} />
-      <ShowItens items={items} deleteData={deleteData} loading={loading} setLoading={setLoading} />
+      <Animated.View style={{width: animatedBlock}}>
+        <ShowItens items={items} deleteData={deleteData} loading={loading} setLoading={setLoading} />
+      </Animated.View>
     </View>
 
     </View>
@@ -114,4 +134,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fafafa',
   },
+  modalBlock: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#171717',
+  }
 })
